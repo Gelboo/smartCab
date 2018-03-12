@@ -71,7 +71,7 @@ class LearningAgent(Agent):
         # With the hand-engineered features, this learning process gets entirely negated.
 
         # Set 'state' as a tuple of relevant data for the agent
-        state = (waypoint,inputs['oncoming'],inputs['light'])
+        state = (waypoint,inputs['light'],inputs['oncoming'])
 
         return state
 
@@ -130,8 +130,10 @@ class LearningAgent(Agent):
         if not(self.learning):
             action = random.choice(self.valid_actions)
         else:
-            p = random.uniform(0,1)
-            if p <= self.epsilon:
+
+            p = random.random()
+            print "probabilittty " +str(p)
+            if p < self.epsilon:
                 action = random.choice(self.valid_actions)
             else:
                 action = max(self.Q[state],key=self.Q[state].get)
@@ -211,7 +213,7 @@ def run():
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05
     #   n_test     - discrete number of testing trials to perform, default is 0
 
-    sim.run(n_test=10,tolerance=0.3)
+    sim.run(n_test=20,tolerance=.000002)
 
 
 if __name__ == '__main__':
